@@ -19,7 +19,7 @@ var background = L.tileLayer('https://tiles.openaerialmap.org/60770b0fb85cd80007
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright/it">OpenStreetMap contributors</a>'
 });
 
-var foreground = L.tileLayer.mask('https://mapwarper.net/maps/tile/34968/{z}/{x}/{y}.png', {
+var foreground = L.tileLayer.mask('https://mapwarper.net/maps/tile/19481/{z}/{x}/{y}.png ', {
     maskSize: 256,
     attribution: 'Pianta della città di Trento - 1915 <a href="https://commons.wikimedia.org/wiki/File:Battisti_-_Il_Trentino,_cenni_geografici,_storici,_economici,_1915_72.jpg">Wikimedia Commmons</a> '
 });
