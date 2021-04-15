@@ -1,0 +1,74 @@
+{
+    "maps": [{
+            "id": 0,
+            "url": "https://tiles.openaerialmap.org/60770b0fb85cd80007a01414/0/60770b0fb85cd80007a01415/{z}/{x}/{y}",
+            "description": "Ortofotocarta",
+            "year": "2019",
+            "license": "CC0",
+            "boundary": "",
+            "attribution": "Ortofotocarta Comune di Trento 2019"
+        },
+        {
+            "id": 1,
+            "url": "https://tile.jawg.io/{z}/{x}/{y}.png?api-key=community",
+            "year": "2021",
+            "description": "OpenStreetMap/JawgMaps",
+            "license": "",
+            "boundary": "",
+            "attribution": "Tiles courtesy of <a href='https://www.jawg.io/'>jawgmaps</a>"
+
+        }, {
+            "id": 2,
+            "url": "https://mapwarper.net/maps/tile/35385/{z}/{x}/{y}.png ",
+            "description": "mappa catasto napoleonico",
+            "year": "1813",
+            "license": "public domain",
+            "boundary": "",
+            "attribution": "mappa catasto napoleonico"
+        },
+        {
+            "id": 3,
+            "url": "https://mapwarper.net/maps/tile/51028/{z}/{x}/{y}.png",
+            "description": "Trento - Francesco Ranzi",
+            "year": "1869",
+            "license": "public domain",
+            "boundary": "",
+            "attribution": "Francesco Ranzi-Pianta di Trento Antica e Moderna"
+        },
+        {
+            "id": 4,
+            "url": "https://mapwarper.net/maps/tile/27221/{z}/{x}/{y}.png",
+            "description": "Trento - Karl Baedeker",
+            "year": "1896",
+            "license": "public domain",
+            "boundary": "",
+            "attribution": "Trento 1896 - Karl Baedeker"
+        },
+        {
+            "id": 5,
+            "url": "https://mapwarper.net/maps/tile/34968/{z}/{x}/{y}.png",
+            "description": "Trento - Wagner & Debes, Leipzig",
+            "year": "1911",
+            "license": "",
+            "boundary": "",
+            "attribution": "Mappa di Trento di Wagner & Debes, Leipzig - scala 1:11700"
+        },
+        {
+            "id": 6,
+            "url": "http://mapwarper.net/maps/tile/19481/{z}/{x}/{y}.png",
+            "description": "Trento - C. Battisti",
+            "year": "1915",
+            "license": "public domain",
+            "boundary": "",
+            "attribution": "Il Trentino, cenni geografici, storici, economici (C. Battisti) 1915"
+        }, {
+            "id": 7,
+            "url": "https://mapwarper.net/maps/tile/45342/{z}/{x}/{y}.png",
+            "description": "Trento - US Army",
+            "year": "1943",
+            "license": "public domain",
+            "boundary": "",
+            "attribution": "Esercito USA - 1943"
+        }
+    ]
+}

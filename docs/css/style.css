@@ -1,0 +1,67 @@
+body {
+    padding: 0;
+    margin: 0;
+}
+
+html,
+body,
+#map {
+    height: 100%;
+    font: 10pt Inter, Arial, Helvetica, sans-serif;
+}
+
+#header {
+    margin: auto;
+    height: 30px;
+    padding: auto;
+    padding-right: 1%;
+    line-height: 20px;
+    font-size: 14pt;
+    color: #fff;
+    background-color: #332107;
+    text-align: right;
+}
+
+#titolo {
+    background-color: #332107;
+    position: absolute;
+    top: 10px;
+    margin-left: 40%;
+    margin-right: 40%;
+    width: 10%;
+    z-index: 400000;
+    border-radius: 4px;
+    font-size: 14.4pt;
+    font-family: Inter;
+    font-weight: bold;
+    color: #fff;
+    text-align: : center;
+    line-height: 40px;
+    border: 1px solid;
+}
+
+.lorem {
+    text-align: justify;
+    font-size: 14px;
+    color: #000000;
+}
+
+.changemap {
+    text-decoration: underline dotted black;
+}
+
+.fa.fa-arrow-left {
+    color: black
+}
+
+.fa.fa-arrow-left:hover {
+    color: gray;
+}
+
+.fa.fa-arrow-right {
+    color: black
+}
+
+.fa.fa-arrow-right:hover {
+    color: gray;
+}
