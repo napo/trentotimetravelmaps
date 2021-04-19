@@ -1,0 +1,20 @@
+body { 
+    height: 100%; 
+    background-color: white; 
+    font: 10pt Inter, Arial, Helvetica, sans-serif;
+}
+#map { 
+    height: 94vh; 
+    width: 100%; 
+}
+#header {
+    margin: auto;
+    height: 30px;
+    padding: auto;
+    padding-right: 1%;
+    line-height: 20px;
+    font-size: 14pt;
+    color: #fff;
+    background-color: #332107;
+    text-align: right;
+}
