@@ -1,12 +1,18 @@
-body { 
-    height: 100%; 
-    background-color: white; 
+body {
+    height: 100%;
+    background-color: white;
     font: 10pt Inter, Arial, Helvetica, sans-serif;
 }
-#map { 
-    height: 94vh; 
-    width: 100%; 
+
+#maps {
+    background-color silver;
 }
+
+#map {
+    height: 94vh;
+    width: 100%;
+}
+
 #header {
     margin: auto;
     height: 30px;
@@ -17,4 +23,24 @@ body {
     color: #fff;
     background-color: #332107;
     text-align: right;
+}
+
+.changemap {
+    text-decoration: underline dotted black;
+}
+
+.fa.fa-arrow-left {
+    color: black
+}
+
+.fa.fa-arrow-left:hover {
+    color: gray;
+}
+
+.fa.fa-arrow-right {
+    color: black
+}
+
+.fa.fa-arrow-right:hover {
+    color: gray;
 }
