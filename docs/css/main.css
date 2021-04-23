@@ -5,16 +5,7 @@ body {
 }
 
 #maps {
-    background-color silver;
-}
-
-#map {
-    height: 94vh;
-    width: 100%;
-}
-
-#map2 {
-    width: 0%;
+    background-color: lightgrey;
 }
 
 #header {
@@ -47,4 +38,24 @@ body {
 
 .fa.fa-arrow-right:hover {
     color: gray;
+}
+
+#map {
+    height: 95vh;
+    /**width: 50%;**/
+}
+
+#map2 {
+    height: 95vh;
+    display: none;
+    /**width: 50%;**/
+}
+
+img-max {
+    max-width: 500px;
+    width: 100%;
+}
+
+table {
+    max-width: 50%;
 }
