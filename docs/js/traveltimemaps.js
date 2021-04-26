@@ -1,5 +1,5 @@
-var bgmap = 0;
-var fgmap = 6;
+var rightmapid = 0;
+var leftmapid = 6;
 var totalmaps = 1;
 var configmaps;
 var actualview = 0;
@@ -38,7 +38,6 @@ var background = L.tileLayer('https://tiles.openaerialmap.org/60770b0fb85cd80007
 });
 
 var foreground = L.tileLayer.mask('https://mapwarper.net/maps/tile/19481/{z}/{x}/{y}.png ', {
-    maskSize: 256,
     attribution: 'Pianta della città di Trento - 1915 <a href="https://commons.wikimedia.org/wiki/File:Battisti_-_Il_Trentino,_cenni_geografici,_storici,_economici,_1915_72.jpg">Wikimedia Commmons</a> '
 });
 
@@ -111,6 +110,7 @@ function changeview(v) {
 
 function viewrules(rule) {
     switch (rule) {
+        // Mappa singola
         case 1:
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
@@ -123,6 +123,7 @@ function viewrules(rule) {
             map.zoomControl.addTo(map);
             map.removeLayer(foreground);
             break;
+            // Lente
         case 0:
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
@@ -133,10 +134,15 @@ function viewrules(rule) {
             map.removeLayer(backgroundleft);
             map.addLayer(background);
             map.addLayer(foreground);
+            layermap = configmaps.maps[rightmapid];
+            foreground = L.tileLayer.mask(layermap.url, {
+                attribution: layermap.attribution
+            });
             map.on("mousemove", function(e) {
                 foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
             });
             break;
+            // doppia
         case 2:
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
@@ -158,25 +164,26 @@ function viewrules(rule) {
 
 function changeleftmap(d) {
     if (d == 0) {
-        if (fgmap == 0) {
-            fgmap = (configmaps.maps.length - 1);
+        if (leftmapid == 0) {
+            leftmapid = (configmaps.maps.length - 1);
         } else {
-            fgmap = fgmap - 1;
+            leftmapid = leftmapid - 1;
         }
     }
     if (d == 1) {
-        if (fgmap == (configmaps.maps.length - 1)) {
-            fgmap = 0;
+        if (leftmapid == (configmaps.maps.length - 1)) {
+            leftmapid = 0;
         } else {
-            fgmap = fgmap + 1;
+            leftmapid = leftmapid + 1;
         }
     }
-    layermap = configmaps.maps[fgmap];
-    $('#descfgmap').text(layermap.description)
-    $('#yearfg').text(layermap.year);
-    $('#imgfgmap').attr("src", layermap.image);
+    console.log(d);
+    layermap = configmaps.maps[leftmapid];
+    $('#descmapleft').text(layermap.description)
+    $('#yearleaft').text(layermap.year);
+    $('#imgleftmap').attr("src", layermap.image);
     switch (actualview) {
-        case 0:
+        case 1:
             map.removeLayer(foreground);
             map.removeLayer(backgroundleft);
             backgroundleft = L.tileLayer(layermap.url, {
@@ -184,7 +191,7 @@ function changeleftmap(d) {
             });
             map.addLayer(backgroundleft);
             break;
-        case 1:
+        case 0:
             map.removeLayer(backgroundleft);
             map.addLayer(background);
             map.removeLayer(foreground);
@@ -206,7 +213,6 @@ function changeleftmap(d) {
             map.addLayer(backgroundleft);
             break;
     }
-    return (layermap);
 }
 
 function changeWindowSize() {
@@ -218,28 +224,28 @@ function changeWindowSize() {
 
 function changerightmap(d) {
     if (d == 0) {
-        if (bgmap == 0) {
-            bgmap = configmaps.maps.length - 1;
+        if (rightmapid == 0) {
+            rightmapid = configmaps.maps.length - 1;
         } else {
-            bgmap = bgmap - 1;
+            rightmapid = rightmapid - 1;
         }
     }
     if (d == 1) {
-        if (bgmap == (configmaps.maps.length - 1)) {
-            bgmap = 0;
+        if (rightmapid == (configmaps.maps.length - 1)) {
+            rightmapid = 0;
         } else {
-            bgmap = bgmap + 1;
+            rightmapid = rightmapid + 1;
         }
     }
-    layermap = configmaps.maps[bgmap];
-    $('#descbgmap').text(layermap.description)
-    $('#yearbg').text(layermap.year);
-    $('#imgbgmap').attr("src", layermap.image);
+    layermap = configmaps.maps[rightmapid];
+    $('#descrightmap').text(layermap.description)
+    $('#yearright').text(layermap.year);
+    $('#imgrightmap').attr("src", layermap.image);
     switch (actualview) {
-        case 0:
+        case 1:
             map.removeLayer(foreground);
             break;
-        case 1:
+        case 0:
             map.removeLayer(background);
             background = L.tileLayer(layermap.url, {
                 attribution: layermap.attribution
@@ -252,10 +258,6 @@ function changerightmap(d) {
     return (layermap);
 }
 
-
-var osm = L.tileLayer('https://tile.jawg.io/{z}/{x}/{y}.png?api-key=community', {
-    attribution: '&copy; <a href="http://www.openstreetmap.org/copyright/it">OpenStreetMap contributors</a>'
-});
 
 var map2 = L.map('map2', {
     layers: [backgroundright],
