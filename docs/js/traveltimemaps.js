@@ -70,12 +70,7 @@ map.on("mousemove", function(e) {
 });
 
 L.control.scale({ 'position': 'bottomright' }).addTo(map);
-//L.control.measureControl().addTo(map);
-/*
-var sidebar = L.control.sidebar({
-    container: 'sidebar'
-}).addTo(map).open('list');
-*/
+
 function changeview(v) {
     if (v == 0) {
         if (actualview == 0) {
@@ -91,8 +86,6 @@ function changeview(v) {
             actualview = actualview + 1;
         }
     }
-    console.log(actualview);
-    console.log(views[actualview].label);
     switch (actualview) {
         case 0:
             viewrules(actualview);
@@ -112,6 +105,8 @@ function viewrules(rule) {
     switch (rule) {
         // Mappa singola
         case 1:
+            $('#titleleftmap').text("Mappa");
+            $("#rightmaparea").collapse();
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
             $("#map2").hide();
@@ -125,6 +120,8 @@ function viewrules(rule) {
             break;
             // Lente
         case 0:
+            $("#rightmaparea").show();
+            $('#titleleftmap').text("Mappa 1");
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
             $("#map2").hide();
@@ -144,6 +141,8 @@ function viewrules(rule) {
             break;
             // doppia
         case 2:
+            $("#rightmaparea").show();
+            $('#titleleftmap').text("Mappa 1");
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
             map.removeLayer(foreground);
@@ -177,7 +176,6 @@ function changeleftmap(d) {
             leftmapid = leftmapid + 1;
         }
     }
-    console.log(d);
     layermap = configmaps.maps[leftmapid];
     $('#descmapleft').text(layermap.description)
     $('#yearleaft').text(layermap.year);
@@ -238,7 +236,7 @@ function changerightmap(d) {
         }
     }
     layermap = configmaps.maps[rightmapid];
-    $('#descrightmap').text(layermap.description)
+    $('#descmapright').text(layermap.description)
     $('#yearright').text(layermap.year);
     $('#imgrightmap').attr("src", layermap.image);
     switch (actualview) {

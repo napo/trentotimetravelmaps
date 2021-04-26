@@ -13,7 +13,7 @@
             "id": 1,
             "url": "https://tile.jawg.io/{z}/{x}/{y}.png?api-key=community",
             "year": "2021",
-            "description": "OpenStreetMap/JawgMaps",
+            "description": "OpenStreetMap JawgMaps",
             "license": "",
             "boundary": "",
             "attribution": "Tiles courtesy of <a href='https://www.jawg.io/'>jawgmaps</a>",
