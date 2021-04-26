@@ -106,17 +106,27 @@ function viewrules(rule) {
         // Mappa singola
         case 1:
             $('#titleleftmap').text("Mappa");
-            $("#rightmaparea").collapse();
+            $("#rightmaparea").hide();
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
             $("#map2").hide();
             $('#map2').width = "0%";
             $('#map').width = "100%";
-            map.removeLayer(foreground);
             map.removeLayer(background);
-            map.addLayer(backgroundleft);
-            map.zoomControl.addTo(map);
             map.removeLayer(foreground);
+            layermap = configmaps.maps[leftmapid];
+            foreground = L.tileLayer.mask(layermap.url, {
+                attribution: layermap.attribution
+            });
+            background = L.tileLayer(layermap.url, {
+                attribution: layermap.attribution
+            });
+            map.addLayer(background);
+            map.addLayer(foreground);
+            map.on("mousemove", function(e) {
+                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
+            });
+            map.zoomControl.addTo(map);
             break;
             // Lente
         case 0:
@@ -161,39 +171,54 @@ function viewrules(rule) {
     }
 }
 
+function getmapid(x, y, maxsize, action) {
+    console.log(x);
+    console.log(y);
+    console.log(maxsize);
+    console.log(action);
+    console.log("---");
+    if (action == 1) {
+        x = x + 1;
+        if (x == y) {
+            x = x + 2;
+        }
+        if (x > maxsize) {
+            x = 0;
+            if (x == y) {
+                x = 1;
+            }
+        }
+    }
+    if (action == 0) {
+        x = x - 1;
+        if (x == y) {
+            x = x - 2;
+        }
+        if (x < 0) {
+            x = maxsize;
+            if (x == y) {
+                x = 0;
+            }
+        }
+    }
+    return (x);
+}
+
 function changeleftmap(d) {
-    if (d == 0) {
-        if (leftmapid == 0) {
-            leftmapid = (configmaps.maps.length - 1);
-        } else {
-            leftmapid = leftmapid - 1;
-        }
-    }
-    if (d == 1) {
-        if (leftmapid == (configmaps.maps.length - 1)) {
-            leftmapid = 0;
-        } else {
-            leftmapid = leftmapid + 1;
-        }
-    }
+    maxsize = configmaps.maps.length - 1;
+    leftmapid = getmapid(leftmapid, rightmapid, maxsize, d);
     layermap = configmaps.maps[leftmapid];
     $('#descmapleft').text(layermap.description)
     $('#yearleaft').text(layermap.year);
     $('#imgleftmap').attr("src", layermap.image);
     switch (actualview) {
         case 1:
-            map.removeLayer(foreground);
-            map.removeLayer(backgroundleft);
-            backgroundleft = L.tileLayer(layermap.url, {
-                attribution: layermap.attribution
-            });
-            map.addLayer(backgroundleft);
-            break;
-        case 0:
-            map.removeLayer(backgroundleft);
-            map.addLayer(background);
+            map.removeLayer(background);
             map.removeLayer(foreground);
             foreground = L.tileLayer.mask(layermap.url, {
+                attribution: layermap.attribution
+            });
+            background = L.tileLayer(layermap.url, {
                 attribution: layermap.attribution
             });
             map.addLayer(foreground);
@@ -202,9 +227,23 @@ function changeleftmap(d) {
                 foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
             });
             break;
-        case 2:
+        case 0:
             map.removeLayer(foreground);
-            map.removeLayer(backgroundleft);
+            map.removeLayer(background);
+            foreground = L.tileLayer.mask(layermap.url, {
+                attribution: layermap.attribution
+            });
+            layermapb = configmaps.maps(rightmapid);
+            background = L.tileLayer(layermapb.url, {
+                attribution: layermapb
+            })
+            map.addLayer(foreground);
+            map.addLayer(background);
+            map.on("mousemove", function(e) {
+                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
+            });
+            break;
+        case 2:
             backgroundleft = L.tileLayer(layermap.url, {
                 attribution: layermap.attribution
             });
@@ -221,20 +260,7 @@ function changeWindowSize() {
 }
 
 function changerightmap(d) {
-    if (d == 0) {
-        if (rightmapid == 0) {
-            rightmapid = configmaps.maps.length - 1;
-        } else {
-            rightmapid = rightmapid - 1;
-        }
-    }
-    if (d == 1) {
-        if (rightmapid == (configmaps.maps.length - 1)) {
-            rightmapid = 0;
-        } else {
-            rightmapid = rightmapid + 1;
-        }
-    }
+    rightmapid = getmapid(rightmapid, leftmapid, configmaps.maps.length - 1, d);
     layermap = configmaps.maps[rightmapid];
     $('#descmapright').text(layermap.description)
     $('#yearright').text(layermap.year);
