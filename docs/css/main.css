@@ -4,9 +4,12 @@ body {
     font: 10pt Inter, Arial, Helvetica, sans-serif;
 }
 
+
+/*
 #maps {
     background-color: lightgrey;
 }
+*/
 
 #header {
     margin: auto;
@@ -49,13 +52,4 @@ body {
     height: 95vh;
     display: none;
     /**width: 50%;**/
-}
-
-img-max {
-    max-width: 500px;
-    width: 100%;
-}
-
-table {
-    max-width: 50%;
 }

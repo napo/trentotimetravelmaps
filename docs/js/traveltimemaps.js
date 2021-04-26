@@ -2,21 +2,21 @@ var bgmap = 0;
 var fgmap = 6;
 var totalmaps = 1;
 var configmaps;
-var actualview = 1;
+var actualview = 0;
 var views = [{
         id: 0,
-        label: "Mostra una mappa",
+        label: "Lente sovrapposta",
         icon: "1.jpg"
     },
     {
         id: 1,
-        label: "Lente sovrapposta",
-        icon: "2.jpg"
+        label: "Mappa singola",
+        icon: "3.jpg"
     },
     {
         id: 2,
         label: "Mappe in parallelo",
-        icon: "3.jpg"
+        icon: "2.jpg"
     }
 ];
 
@@ -92,6 +92,8 @@ function changeview(v) {
             actualview = actualview + 1;
         }
     }
+    console.log(actualview);
+    console.log(views[actualview].label);
     switch (actualview) {
         case 0:
             viewrules(actualview);
@@ -109,9 +111,9 @@ function changeview(v) {
 
 function viewrules(rule) {
     switch (rule) {
-        case 0:
+        case 1:
             $('#selectview').attr("src", "images/" + views[actualview].icon);
-            $('#descview').text(views[actualview].label);
+            $('.descview').text(views[actualview].label);
             $("#map2").hide();
             $('#map2').width = "0%";
             $('#map').width = "100%";
@@ -121,9 +123,9 @@ function viewrules(rule) {
             map.zoomControl.addTo(map);
             map.removeLayer(foreground);
             break;
-        case 1:
+        case 0:
             $('#selectview').attr("src", "images/" + views[actualview].icon);
-            $('#descview').text(views[actualview].label);
+            $('.descview').text(views[actualview].label);
             $("#map2").hide();
             $('#map2').width = "0%";
             $('#map').width = "100%";
@@ -137,7 +139,7 @@ function viewrules(rule) {
             break;
         case 2:
             $('#selectview').attr("src", "images/" + views[actualview].icon);
-            $('#descview').text(views[actualview].label);
+            $('.descview').text(views[actualview].label);
             map.removeLayer(foreground);
             map.removeLayer(background);
             map.addLayer(backgroundleft);
@@ -146,6 +148,7 @@ function viewrules(rule) {
             $('#map').width = "50%";
             map.zoomControl.remove();
             map.invalidateSize();
+            changeWindowSize();
             //map2.invalidateSize();
             break;
         default:
@@ -186,7 +189,6 @@ function changeleftmap(d) {
             map.addLayer(background);
             map.removeLayer(foreground);
             foreground = L.tileLayer.mask(layermap.url, {
-                maskSize: 256,
                 attribution: layermap.attribution
             });
             map.addLayer(foreground);
@@ -207,6 +209,12 @@ function changeleftmap(d) {
     return (layermap);
 }
 
+function changeWindowSize() {
+    h = $(window).height();
+    w = $(window).width();
+    window.resizeTo(w - 30, h - 50);
+    window.resizeTo(w, h);
+}
 
 function changerightmap(d) {
     if (d == 0) {

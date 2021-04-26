@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Trento time Travel Maps </title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="vendor/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" crossorigin="" />
+
+    <!-- Our Custom CSS -->
+    <link rel="stylesheet" href="style3.css">
+    <!-- Scrollbar Custom CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.min.css">
+
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <div class="wrapper">
+        <!-- Sidebar  -->
+        <nav id="sidebar">
+            <div id="dismiss">
+                <i class="fas fa-arrow-left"></i>
+            </div>
+
+            <div class="sidebar-header">
+                <h4>Scegli la tua rappresentazione</h4>
+            </div>
+            <ul class="list-unstyled components">
+                <li>
+                    <div class="container">
+                        <div class='row'>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="row">
+                                        <h5 class="text-right">Modalità</h5>
+                                    </div>
+                                    <div class="row">
+                                        <img id="selectview" class="img-fluid" src="images/1.jpg" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span class="descview">Lente sovrapposta</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <i class="fa fa-arrow-left" aria-hidden="true" onclick="changeview(0);"></i>
+                                    </div>
+                                    <div class="col">
+                                        <i class="fa fa-arrow-right float-right" aria-hidden="true" onclick="changeview(1);"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+            <ul class="list-unstyled components">
+                <li>
+                    <div class="container-fluid">
+                        <div class="row">
+                            <div class="col">
+                                <div class="row">
+                                    <div class="row text-right">
+                                        <h5 class="text-right">Mappa 1</h5>
+                                    </div>
+                                    <div class="row">
+                                        <img id="imgfgmap" src="images/maps/cb_clip.jpg" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span id='descfgmap'>Trento - Cesare Battisti</span> - <i id="yearfg float-left">1915</i>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class="col">
+                                            <i class="fa fa-arrow-left" type="submit" aria-hidden="true" onclick="changeleftmap(0);"></i>
+                                        </div>
+                                        <div class="col">
+                                            <i class="fa fa-arrow-right float-left" type="submit" aria-hidden="true" onclick="changeleftmap(1);"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="row">
+                                    <div class="row">
+                                        <h5 class="text-right">Mappa 2</h5>
+                                    </div>
+                                    <div class="row">
+                                        <img id="imgbgmap" class="img-fluid min-width:64px" src="images/maps/orto_clip.jpg" />
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <span id='descbgmap'>Ortofotocarta - Comune di Trento</span> - <i id="yearbg">2019</i>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <i class="fa fa-arrow-left" aria-hidden="true" onclick="changerightmap(0);"></i>
+                                        </div>
+                                        <div class="col">
+                                            <i class="fa fa-arrow-right" aria-hidden="true" onclick="changerightmap(1);"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">&nbsp;Trento Time Travel</a>
+            <button type="button" id="sidebarCollapse" class="btn">
+            <span>cambia vista</span>
+                    </button>
+        </nav>
+
+
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col" id="maps">
+                    <div class="row">
+                        <div class="col" id="map"></div>
+                        <div class="col" id="map2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="overlay"></div>
+    <!-- Option 2: Separate Popper and Bootstrap JS -->
+    <script src="vendor/js/jquery-3.5.1.min.js"></script>
+    <script src="vendor/js/popper.min.js"></script>
+    <script src="vendor/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#sidebar").mCustomScrollbar({
+                theme: "minimal"
+            });
+
+            $('#dismiss, .overlay').on('click', function() {
+                $('#sidebar').removeClass('active');
+                $('.overlay').removeClass('active');
+            });
+
+            $('#sidebarCollapse').on('click', function() {
+                $('#sidebar').addClass('active');
+                $('.overlay').addClass('active');
+                $('.collapse.in').toggleClass('in');
+                $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+            });
+        });
+    </script>
+    <script src="vendor/js/leaflet.js"></script>
+    <script src="js/leaflet-tilelayer-mask.js"></script>
+    <script src="js/L.Map.Sync.js"></script>
+    <script src="js/leaflet-side-by-side.js"></script>
+    <script src="js/traveltimemaps.js"></script>
+</body>
+
+</html>
