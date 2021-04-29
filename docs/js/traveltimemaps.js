@@ -121,33 +121,7 @@ function changeview(v) {
 
 function viewrules(rule) {
     switch (rule) {
-        // Mappa singola
-        case 1:
-            $('#titleleftmap').text("Mappa");
-            $("#rightmaparea").hide();
-            $('#selectview').attr("src", "images/" + views[actualview].icon);
-            $('.descview').text(views[actualview].label);
-            $("#map2").hide();
-            $('#map2').width = "0%";
-            $('#map').width = "100%";
-            map.removeLayer(background);
-            map.removeLayer(foreground);
-            layermap = configmaps.maps[leftmapid];
-            foreground = L.tileLayer.mask(layermap.url, {
-                maskSize: 256,
-                attribution: layermap.attribution
-            });
-            background = L.tileLayer(layermap.url, {
-                attribution: layermap.attribution
-            });
-            map.addLayer(background);
-            map.addLayer(foreground);
-            map.on("mousemove", function(e) {
-                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
-            });
-            map.zoomControl.addTo(map);
-            break;
-            // Lente
+        //Lente
         case 0:
             $("#rightmaparea").show();
             $('#titleleftmap').text("Mappa 1");
@@ -159,6 +133,7 @@ function viewrules(rule) {
             map.zoomControl.addTo(map);
             map.addLayer(background);
             map.addLayer(foreground);
+            /*
             layermap = configmaps.maps[rightmapid];
             foreground = L.tileLayer.mask(layermap.url, {
                 markSize: 250,
@@ -167,8 +142,38 @@ function viewrules(rule) {
             map.on("mousemove", function(e) {
                 foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
             });
+            */
             break;
-            // doppia
+            // Mappa singola
+        case 1:
+            $('#titleleftmap').text("Mappa");
+            $("#rightmaparea").hide();
+            $('#selectview').attr("src", "images/" + views[actualview].icon);
+            $('.descview').text(views[actualview].label);
+            $("#map2").hide();
+            $('#map2').width = "0%";
+            $('#map').width = "100%";
+            map.removeLayer(background);
+            map.removeLayer(foreground);
+            /*
+            layermap = configmaps.maps[leftmapid];
+            foreground = L.tileLayer.mask(layermap.url, {
+                maskSize: 256,
+                attribution: layermap.attribution
+            });
+            background = L.tileLayer(layermap.url, {
+                attribution: layermap.attribution
+            });
+            */
+            map.addLayer(background);
+            map.addLayer(foreground);
+            /*
+            map.on("mousemove", function(e) {
+                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
+            });*/
+            map.zoomControl.addTo(map);
+            break;
+            // Doppia
         case 2:
             $('#titleleftmap').text("Mappa 1");
             $('#selectview').attr("src", "images/" + views[actualview].icon);
@@ -222,6 +227,17 @@ function getmapid(x, y, maxsize, action) {
 
 function changeLayers(v, lmap, lmap2) {
     switch (v) {
+        case 0:
+            foreground = L.tileLayer.mask(lmap.url, {
+                maskSize: 256,
+                attribution: lmap.attribution
+            });
+            layermapb = configmaps.maps[rightmapid];
+            background = L.tileLayer(lmap2.url, {
+                attribution: lmap2.label
+            });
+            viewrules(0);
+            break;
         case 1:
             foreground = L.tileLayer.mask(lmap.url, {
                 maskSize: 256,
@@ -231,17 +247,6 @@ function changeLayers(v, lmap, lmap2) {
                 attribution: lmap.attribution
             });
             viewrules(1);
-            break;
-        case 0:
-            foreground = L.tileLayer.mask(lmap.url, {
-                maskSize: 256,
-                attribution: lmap.attribution
-            });
-            layermapb = configmaps.maps[rightmapid];
-            background = L.tileLayer(lmap.url, {
-                attribution: lmap.label
-            });
-            viewrules(0);
             break;
         case 2:
             foreground = L.tileLayer.mask(lmap.url, {
