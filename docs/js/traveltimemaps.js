@@ -130,19 +130,11 @@ function viewrules(rule) {
             $("#map2").hide();
             $('#map2').width = "0%";
             $('#map').width = "100%";
-            map.zoomControl.addTo(map);
+            map.removeLayer(background);
+            map.removeLayer(foreground);
             map.addLayer(background);
             map.addLayer(foreground);
-            /*
-            layermap = configmaps.maps[rightmapid];
-            foreground = L.tileLayer.mask(layermap.url, {
-                markSize: 250,
-                attribution: layermap.attribution
-            });
-            map.on("mousemove", function(e) {
-                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
-            });
-            */
+            map.zoomControl.addTo(map);
             break;
             // Mappa singola
         case 1:
@@ -155,22 +147,8 @@ function viewrules(rule) {
             $('#map').width = "100%";
             map.removeLayer(background);
             map.removeLayer(foreground);
-            /*
-            layermap = configmaps.maps[leftmapid];
-            foreground = L.tileLayer.mask(layermap.url, {
-                maskSize: 256,
-                attribution: layermap.attribution
-            });
-            background = L.tileLayer(layermap.url, {
-                attribution: layermap.attribution
-            });
-            */
             map.addLayer(background);
             map.addLayer(foreground);
-            /*
-            map.on("mousemove", function(e) {
-                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
-            });*/
             map.zoomControl.addTo(map);
             break;
             // Doppia
@@ -226,8 +204,12 @@ function getmapid(x, y, maxsize, action) {
 }
 
 function changeLayers(v, lmap, lmap2) {
+    map.removeLayer(background);
+    map.removeLayer(foreground);
+    map.removeLayer(backgroundright);
     switch (v) {
         case 0:
+
             foreground = L.tileLayer.mask(lmap.url, {
                 maskSize: 256,
                 attribution: lmap.attribution
@@ -258,7 +240,7 @@ function changeLayers(v, lmap, lmap2) {
             });
             backgroundright = L.tileLayer(lmap2.url, {
                 attribution: lmap2.label
-            })
+            });
             viewrules(2);
             break;
     }
