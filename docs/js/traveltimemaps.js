@@ -138,11 +138,11 @@ function viewrules(rule) {
             $('#map2').width = "0%";
             $('#map').width = "100%";
             map.zoomControl.addTo(map);
-            map.removeLayer(backgroundleft);
             map.addLayer(background);
             map.addLayer(foreground);
             layermap = configmaps.maps[rightmapid];
             foreground = L.tileLayer.mask(layermap.url, {
+                markSize: 250,
                 attribution: layermap.attribution
             });
             map.on("mousemove", function(e) {
@@ -154,19 +154,19 @@ function viewrules(rule) {
             $('#titleleftmap').text("Mappa 1");
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
+            $("#rightmaparea").show();
             map.removeLayer(foreground);
             map.removeLayer(background);
-            map.addLayer(backgroundleft);
+            map2.removeLayer(backgroundright);
+            map.addLayer(foreground);
+            map.addLayer(background);
+            map2.addLayer(backgroundright);
             $("#map2").show();
             $('#map2').width = "50%";
             $('#map').width = "50%";
             map.zoomControl.remove();
-            //map.invalidateSize();
-            changeWindowSize();
-            $("#map2").show();
             $("#map2").animate({ width: '50%' }, 400);
             setTimeout(function() { map2.invalidateSize() }, 400);
-            //map2.invalidateSize();
             break;
         default:
             break;
@@ -174,11 +174,6 @@ function viewrules(rule) {
 }
 
 function getmapid(x, y, maxsize, action) {
-    console.log(x);
-    console.log(y);
-    console.log(maxsize);
-    console.log(action);
-    console.log("---");
     if (action == 1) {
         x = x + 1;
         if (x == y) {
@@ -206,85 +201,62 @@ function getmapid(x, y, maxsize, action) {
     return (x);
 }
 
+function changeLayers(v, lmap, lmap2) {
+    switch (v) {
+        case 1:
+            foreground = L.tileLayer.mask(lmap.url, {
+                attribution: lmap.attribution
+            });
+            background = L.tileLayer(lmap.url, {
+                attribution: lmap.attribution
+            });
+            viewrules(1);
+            break;
+        case 0:
+            foreground = L.tileLayer.mask(lmap.url, {
+                attribution: lmap.attribution
+            });
+            layermapb = configmaps.maps[rightmapid];
+            background = L.tileLayer(lmap.url, {
+                attribution: lmap.label
+            });
+            viewrules(0);
+            break;
+        case 2:
+            foreground = L.tileLayer.mask(lmap.url, {
+                attribution: lmap.attribution
+            });
+            background = L.tileLayer(lmap.url, {
+                attribution: lmap.label
+            });
+            backgroundright = L.tileLayer(lmap2.url, {
+                attribution: lmap2.label
+            })
+            viewrules(2);
+            break;
+    }
+}
+
 function changeleftmap(d) {
     maxsize = configmaps.maps.length - 1;
     leftmapid = getmapid(leftmapid, rightmapid, maxsize, d);
     layermap = configmaps.maps[leftmapid];
+    layermapr = configmaps.maps[rightmapid];
     $('#descmapleft').text(layermap.description)
     $('#yearleaft').text(layermap.year);
     $('#imgleftmap').attr("src", layermap.image);
-    switch (actualview) {
-        case 1:
-            map.removeLayer(background);
-            map.removeLayer(foreground);
-            foreground = L.tileLayer.mask(layermap.url, {
-                attribution: layermap.attribution
-            });
-            background = L.tileLayer(layermap.url, {
-                attribution: layermap.attribution
-            });
-            map.addLayer(foreground);
-            map.addLayer(background);
-            map.on("mousemove", function(e) {
-                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
-            });
-            break;
-        case 0:
-            map.removeLayer(foreground);
-            map.removeLayer(background);
-            foreground = L.tileLayer.mask(layermap.url, {
-                attribution: layermap.attribution
-            });
-            layermapb = configmaps.maps(rightmapid);
-            background = L.tileLayer(layermapb.url, {
-                attribution: layermapb
-            })
-            map.addLayer(foreground);
-            map.addLayer(background);
-            map.on("mousemove", function(e) {
-                foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
-            });
-            break;
-        case 2:
-            backgroundleft = L.tileLayer(layermap.url, {
-                attribution: layermap.attribution
-            });
-            map.addLayer(backgroundleft);
-            break;
-    }
+    changeLayers(actualview, layermap, layermapr);
 }
 
-function changeWindowSize() {
-    h = $(window).height();
-    w = $(window).width();
-    window.resizeTo(w - 30, h - 50);
-    window.resizeTo(w, h);
-    $(window).trigger('resize');
-
-
-}
 
 function changerightmap(d) {
     rightmapid = getmapid(rightmapid, leftmapid, configmaps.maps.length - 1, d);
     layermap = configmaps.maps[rightmapid];
+    layermapr = configmaps.maps[leftmapid];
     $('#descmapright').text(layermap.description)
     $('#yearright').text(layermap.year);
     $('#imgrightmap').attr("src", layermap.image);
-    switch (actualview) {
-        case 1:
-            map.removeLayer(foreground);
-            break;
-        case 0:
-            map.removeLayer(background);
-            background = L.tileLayer(layermap.url, {
-                attribution: layermap.attribution
-            });
-            map.addLayer(background);
-            break;
-        case 2:
-            map.removeLayer(foreground);
-    }
-    return (layermap);
+    changeLayers(actualview, layermap, layermapr);
 }
 
 
