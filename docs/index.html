@@ -146,25 +146,6 @@
         <script src="vendor/js/bootstrap.min.js"></script>
         <script src="vendor/js/jquery.mCustomScrollbar.concat.min.js"></script>
 
-        <script type="text/javascript">
-            $(document).ready(function() {
-                $("#sidebar").mCustomScrollbar({
-                    theme: "minimal"
-                });
-
-                $('#dismiss, .overlay').on('click', function() {
-                    $('#sidebar').removeClass('active');
-                    // $('.overlay').removeClass('active');
-                });
-
-                $('#sidebarCollapse').on('click', function() {
-                    $('#sidebar').addClass('active');
-                    //$('.overlay').addClass('active');
-                    $('.collapse.in').toggleClass('in');
-                    $('a[aria-expanded=true]').attr('aria-expanded', 'false');
-                });
-            });
-        </script>
         <script src="vendor/js/leaflet.js"></script>
         <script src="js/leaflet-tilelayer-mask.js"></script>
         <script src="js/L.Map.Sync.js"></script>

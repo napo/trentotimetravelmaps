@@ -1,3 +1,23 @@
+/* sidabar management */
+$(document).ready(function() {
+    $("#sidebar").mCustomScrollbar({
+        theme: "minimal"
+    });
+
+    $('#dismiss, .overlay').on('click', function() {
+        $('#sidebar').removeClass('active');
+        // $('.overlay').removeClass('active');
+    });
+
+    $('#sidebarCollapse').on('click', function() {
+        $('#sidebar').addClass('active');
+        //$('.overlay').addClass('active');
+        $('.collapse.in').toggleClass('in');
+        $('a[aria-expanded=true]').attr('aria-expanded', 'false');
+    });
+});
+
+/* maps management */
 var rightmapid = 0;
 var leftmapid = 6;
 var totalmaps = 1;
@@ -29,7 +49,7 @@ $.ajax({
         totalmaps = configmaps.length - 1;
     },
     error: function() {
-        console.log("errore caricamento json");
+        alert("errore caricamento configurazione");
     }
 })
 
@@ -38,12 +58,10 @@ var background = L.tileLayer('https://tiles.openaerialmap.org/60770b0fb85cd80007
 });
 
 var foreground = L.tileLayer.mask('https://mapwarper.net/maps/tile/19481/{z}/{x}/{y}.png ', {
+    maskSize: 256,
     attribution: 'Pianta della città di Trento - 1915 <a href="https://commons.wikimedia.org/wiki/File:Battisti_-_Il_Trentino,_cenni_geografici,_storici,_economici,_1915_72.jpg">Wikimedia Commmons</a> '
 });
 
-var backgroundleft = L.tileLayer('https://mapwarper.net/maps/tile/19481/{z}/{x}/{y}.png ', {
-    attribution: 'Pianta della città di Trento - 1915 <a href="https://commons.wikimedia.org/wiki/File:Battisti_-_Il_Trentino,_cenni_geografici,_storici,_economici,_1915_72.jpg">Wikimedia Commmons</a> '
-});
 
 var backgroundright = L.tileLayer('https://tiles.openaerialmap.org/60770b0fb85cd80007a01414/0/60770b0fb85cd80007a01415/{z}/{x}/{y}', {
     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright/it">OpenStreetMap contributors</a>'
@@ -116,6 +134,7 @@ function viewrules(rule) {
             map.removeLayer(foreground);
             layermap = configmaps.maps[leftmapid];
             foreground = L.tileLayer.mask(layermap.url, {
+                maskSize: 256,
                 attribution: layermap.attribution
             });
             background = L.tileLayer(layermap.url, {
@@ -205,6 +224,7 @@ function changeLayers(v, lmap, lmap2) {
     switch (v) {
         case 1:
             foreground = L.tileLayer.mask(lmap.url, {
+                maskSize: 256,
                 attribution: lmap.attribution
             });
             background = L.tileLayer(lmap.url, {
@@ -214,6 +234,7 @@ function changeLayers(v, lmap, lmap2) {
             break;
         case 0:
             foreground = L.tileLayer.mask(lmap.url, {
+                maskSize: 256,
                 attribution: lmap.attribution
             });
             layermapb = configmaps.maps[rightmapid];
@@ -224,6 +245,7 @@ function changeLayers(v, lmap, lmap2) {
             break;
         case 2:
             foreground = L.tileLayer.mask(lmap.url, {
+                maskSize: 256,
                 attribution: lmap.attribution
             });
             background = L.tileLayer(lmap.url, {
@@ -250,13 +272,14 @@ function changeleftmap(d) {
 
 
 function changerightmap(d) {
-    rightmapid = getmapid(rightmapid, leftmapid, configmaps.maps.length - 1, d);
+    maxsize = configmaps.maps.length - 1;
+    rightmapid = getmapid(rightmapid, leftmapid, maxsize - 1, d);
     layermap = configmaps.maps[rightmapid];
     layermapr = configmaps.maps[leftmapid];
     $('#descmapright').text(layermap.description)
     $('#yearright').text(layermap.year);
     $('#imgrightmap').attr("src", layermap.image);
-    changeLayers(actualview, layermap, layermapr);
+    changeLayers(actualview, layermapr, layermap);
 }
 
 
