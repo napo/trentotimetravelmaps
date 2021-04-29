@@ -23,6 +23,7 @@ var leftmapid = 6;
 var totalmaps = 1;
 var configmaps;
 var actualview = 0;
+var first = true;
 var views = [{
         id: 0,
         label: "Lente sovrapposta",
@@ -109,6 +110,13 @@ function changeview(v) {
             viewrules(actualview);
             break;
         case 1:
+            if (foreground._url != background._url) {
+                map.removeLayer(background);
+                background = L.tileLayer(foreground._url, {
+                    attribution: foreground.options.attribution
+                });
+                map.addLayer(background);
+            }
             viewrules(actualview);
             break;
         case 2:
@@ -135,6 +143,8 @@ function viewrules(rule) {
             map.addLayer(background);
             map.addLayer(foreground);
             map.zoomControl.addTo(map);
+            $("#map").animate({ width: '100%' }, 400);
+            setTimeout(function() { map.invalidateSize() }, 400);
             break;
             // Mappa singola
         case 1:
@@ -150,6 +160,8 @@ function viewrules(rule) {
             map.addLayer(background);
             map.addLayer(foreground);
             map.zoomControl.addTo(map);
+            $("#map").animate({ width: '100%' }, 400);
+            setTimeout(function() { map.invalidateSize() }, 400);
             break;
             // Doppia
         case 2:
@@ -173,34 +185,6 @@ function viewrules(rule) {
         default:
             break;
     }
-}
-
-function getmapid(x, y, maxsize, action) {
-    if (action == 1) {
-        x = x + 1;
-        if (x == y) {
-            x = x + 2;
-        }
-        if (x > maxsize) {
-            x = 0;
-            if (x == y) {
-                x = 1;
-            }
-        }
-    }
-    if (action == 0) {
-        x = x - 1;
-        if (x == y) {
-            x = x - 2;
-        }
-        if (x < 0) {
-            x = maxsize;
-            if (x == y) {
-                x = 0;
-            }
-        }
-    }
-    return (x);
 }
 
 function changeLayers(v, lmap, lmap2) {
@@ -269,6 +253,35 @@ function changerightmap(d) {
     changeLayers(actualview, layermapr, layermap);
 }
 
+
+
+function getmapid(x, y, maxsize, action) {
+    if (action == 1) {
+        x = x + 1;
+        if (x == y) {
+            x = x + 2;
+        }
+        if (x > maxsize) {
+            x = 0;
+            if (x == y) {
+                x = 1;
+            }
+        }
+    }
+    if (action == 0) {
+        x = x - 1;
+        if (x == y) {
+            x = x - 2;
+        }
+        if (x < 0) {
+            x = maxsize;
+            if (x == y) {
+                x = 0;
+            }
+        }
+    }
+    return (x);
+}
 
 var map2 = L.map('map2', {
     layers: [backgroundright],
