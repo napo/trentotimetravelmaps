@@ -151,7 +151,6 @@ function viewrules(rule) {
             break;
             // doppia
         case 2:
-            $("#rightmaparea").show();
             $('#titleleftmap').text("Mappa 1");
             $('#selectview').attr("src", "images/" + views[actualview].icon);
             $('.descview').text(views[actualview].label);
@@ -162,8 +161,11 @@ function viewrules(rule) {
             $('#map2').width = "50%";
             $('#map').width = "50%";
             map.zoomControl.remove();
-            map.invalidateSize();
+            //map.invalidateSize();
             changeWindowSize();
+            $("#map2").show();
+            $("#map2").animate({ width: '50%' }, 400);
+            setTimeout(function() { map2.invalidateSize() }, 400);
             //map2.invalidateSize();
             break;
         default:
@@ -257,6 +259,9 @@ function changeWindowSize() {
     w = $(window).width();
     window.resizeTo(w - 30, h - 50);
     window.resizeTo(w, h);
+    $(window).trigger('resize');
+
+
 }
 
 function changerightmap(d) {
