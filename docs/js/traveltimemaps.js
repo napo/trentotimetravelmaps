@@ -368,16 +368,12 @@ var map = L.map('map', {
     maxZoom: 18,
     minZoom: 9,
     maxBound: [
-        [
-            [46.05858084649358, 11.102843284606934],
-            [46.07879771278557, 11.1436128616333]
-        ]
+        boundary
     ],
     inertia: false,
     layers: [background, foreground],
     zoomControl: true
 });
-var center = [46.06847, 11.11925]
 map.setView(center, 17);
 map.zoomControl.setPosition('topright');
 map.on("mousemove", function(e) {
