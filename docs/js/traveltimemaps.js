@@ -23,7 +23,6 @@ var leftmapid = 6;
 var totalmaps = 1;
 var configmaps;
 var actualview = 0;
-var first = true;
 var views = [{
         id: 0,
         label: "Lente sovrapposta",
@@ -45,6 +44,22 @@ var views = [{
         icon: "4.gif"
     }
 ];
+var hashurl = "#zoom/lat/lon/view/left/right";
+
+function changehashurl() {
+    zoom = map.getZoom();
+    lat = map.getCenter().lat;
+    lon = map.getCenter().lng;
+    left = leftmapid;
+    right = rightmapid;
+    v = hashurl.replace("zoom", zoom)
+        .replace("lat", lat)
+        .replace("lon", lon)
+        .replace("view", actualview)
+        .replace("left", leftmapid)
+        .replace("right", rightmapid)
+    location.hash = v;
+}
 
 
 $.ajax({
@@ -53,6 +68,7 @@ $.ajax({
     success: function(data) {
         configmaps = data;
         totalmaps = configmaps.length - 1;
+        //readhash();
     },
     error: function() {
         alert("errore caricamento configurazione");
@@ -93,6 +109,7 @@ function changeview(v) {
             actualview = actualview + 1;
         }
     }
+    changehashurl();
     switch (actualview) {
         case 0:
             if (foreground._url == background._url) {
@@ -151,6 +168,7 @@ function changeview(v) {
 }
 
 function viewrules(rule) {
+    changehashurl();
     sidebyside.remove();
     switch (rule) {
         //Lente
@@ -319,6 +337,7 @@ function changeleftmap(d) {
     $('#descmapleft').text(layermap.description);
     $('#yearleaft').text(layermap.year);
     $('#imgleftmap').attr("src", layermap.image);
+    changehashurl();
     changeLayers(actualview, layermap, layermapr);
 }
 
@@ -331,6 +350,7 @@ function changerightmap(d) {
     $('#descmapright').text(layermap.description);
     $('#yearright').text(layermap.year);
     $('#imgrightmap').attr("src", layermap.image);
+    changehashurl();
     changeLayers(actualview, layermapr, layermap);
 }
 
@@ -363,6 +383,31 @@ function getmapid(x, y, maxsize, action) {
     return (x);
 }
 
+function readhash() {
+    hashvalues = window.location.hash.substr(1).split("/");
+    if (hashvalues.length) {
+        zoom = hashvalues[0];
+        lat = hashvalues[1];
+        lon = hashvalues[2];
+        actualview = hashvalues[3];
+        leftmapid = hashvalues[4];
+        rightmapid = hashvalues[5];
+        layermapr = configmaps.maps[rightmapid];
+        layermapl = configmaps.maps[leftmapid];
+        $('#descmapright').text(layermapr.description);
+        $('#yearright').text(layermapr.year);
+        $('#imgrightmap').attr("src", layermapr.image);
+        $('#descmapleft').text(layermapl.description);
+        $('#yearleaft').text(layermapl.year);
+        $('#imgleftmap').attr("src", layermapl.image);
+        changeLayers(actualview, layermapr, layermapl);
+        changeview(actualview);
+        //map.flyTo([lat, lon], zoom);
+        center = [lat, lon];
+        zoomstart = zoom;
+    }
+}
+
 // standard leaflet map setup
 var map = L.map('map', {
     maxZoom: 18,
@@ -377,13 +422,14 @@ var map = L.map('map', {
 map.setView(center, 17);
 map.zoomControl.setPosition('topright');
 map.on("mousemove", function(e) {
+    changehashurl();
     foreground.setCenter(e.containerPoint.x, e.containerPoint.y);
 });
 
 var map2 = L.map('map2', {
     layers: [backgroundright],
     center: center,
-    zoom: 17,
+    zoom: zoomstart,
     zoomControl: true
 });
 map2.zoomControl.setPosition('topright');
