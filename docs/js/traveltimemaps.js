@@ -16,13 +16,13 @@ $(document).ready(function() {
         $('a[aria-expanded=true]').attr('aria-expanded', 'false');
     });
 });
-
 /* maps management */
 var rightmapid = 0;
 var leftmapid = 6;
 var totalmaps = 1;
 var configmaps;
 var actualview = 0;
+
 var views = [{
         id: 0,
         label: "Lente sovrapposta",
@@ -63,12 +63,12 @@ function changehashurl() {
 
 
 $.ajax({
+    async: false,
     dataType: "json",
     url: "data/config.json",
     success: function(data) {
         configmaps = data;
         totalmaps = configmaps.length - 1;
-        //readhash();
     },
     error: function() {
         alert("errore caricamento configurazione");
@@ -389,9 +389,25 @@ function readhash() {
         zoom = hashvalues[0];
         lat = hashvalues[1];
         lon = hashvalues[2];
-        actualview = hashvalues[3];
-        leftmapid = hashvalues[4];
-        rightmapid = hashvalues[5];
+        view = hashvalues[3];
+        if (view === 'undefined') {
+            view = actualview;
+            alert("songheio");
+        } else {
+            actualview = view;
+        }
+        lid = hashvalues[4];
+        if (lid === 'undefined') {
+            lid = leftmapid;
+        } else {
+            leftmapid = lid;
+        }
+        rid = hashvalues[5];
+        if (rid === 'undefined') {
+            rid = rightmapid;
+        } else {
+            rightmapid = rid;
+        }
         layermapr = configmaps.maps[rightmapid];
         layermapl = configmaps.maps[leftmapid];
         $('#descmapright').text(layermapr.description);
